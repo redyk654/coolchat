@@ -36,3 +36,21 @@ export const signUpWithEmail = async (email: string, password: string, username:
         return { error: 'Unexpected error occurred.' };
     }
 };
+
+export const signInUser = async (email: string, password: string) => {
+    try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password
+        })
+
+        if (error) {
+            console.error(error.code, error.message);
+            return { error: error.message };
+        }
+        return { data }
+    } catch (err) {
+        console.error('Unexpected error:', err);
+        return { error: 'Unexpected error occurred.' };
+    }
+}

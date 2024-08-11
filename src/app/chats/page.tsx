@@ -1,12 +1,17 @@
+import CheckUserAuth from '@/components/Chats/CheckUserAuth'
 import SearchInput from '@/components/Chats/SearchInput'
+import SignOutButton from '@/components/Chats/SignOutButton'
 import H2Title from '@/components/shared/H2Title'
 import React from 'react'
 
 export default function Chats() {
   return (
     <div className='container mx-auto pt-2'>
+        <CheckUserAuth />
         <div className="grid grid-cols-12 gap-2">
-            <div className="w-full rounded h-14 bg-stone-600">01</div>
+            <div className="w-full rounded h-14 bg-stone-600">
+                <SignOutButton />
+            </div>
             <div className="w-full col-span-3 rounded">
                 <H2Title styles='text-slate-900'>
                     Chats

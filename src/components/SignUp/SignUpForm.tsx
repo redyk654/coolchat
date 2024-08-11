@@ -2,7 +2,7 @@
 import React, { FormEvent, useState } from 'react'
 import { signUpWithEmail } from '@/apis/Authentication';
 import useAuth from '@/hooks/useAuth';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 export default function SignUpForm() {
 
