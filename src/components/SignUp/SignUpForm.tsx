@@ -1,24 +1,59 @@
 "use client";
 import React, { FormEvent, useState } from 'react'
+import { supabase } from '../../../lib/supabase';
 
 export default function SignUpForm() {
 
-    const [loading, setLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [email, setEmail] = useState<string>('')
+    const [username, setUsername] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        switch (e.target.name) {
+            case 'email':
+                setEmail(e.target.value)
+                break
+            case 'username':
+                setUsername(e.target.value)
+                break
+            case 'password':
+                setPassword(e.target.value)
+                break
+            default:
+                break
+        }
+    }
 
-        // Simulate form submission
-        setTimeout(() => {
-        setLoading(false);
-        }, 2000);
+    const handleSignUpWithEmail = async (e: FormEvent) => {
+
+        try {
+            e.preventDefault();
+            setIsLoading(true);
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password,
+            });
+
+            if (error) {
+                console.error(error.code, error.message);
+            } else {
+                // alert('Check your email for the confirmation link');
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
   return (
-    <form onSubmit={handleSubmit} className="p-8 rounded-lg shadow-lg w-full max-w-sm">
+    <form onSubmit={handleSignUpWithEmail} className="p-8 rounded-lg shadow-lg w-full max-w-sm">
         <div className="relative z-0 mb-6 w-full group">
             <input
+                value={email}
+                onChange={handleChange}
                 type="email"
                 name="email"
                 id="email"
@@ -35,7 +70,9 @@ export default function SignUpForm() {
         </div>
 
         <div className="relative z-0 mb-6 w-full group">
-            <input 
+            <input
+                value={username}
+                onChange={handleChange}
                 type="text" 
                 name="username" 
                 id="username" 
@@ -52,7 +89,9 @@ export default function SignUpForm() {
         </div>
 
         <div className="relative z-0 mb-6 w-full group">
-            <input 
+            <input
+                value={password}
+                onChange={handleChange}
                 type="password" 
                 name="password" 
                 id="password" 
@@ -71,14 +110,14 @@ export default function SignUpForm() {
         <button
             type="submit"
             className={`relative flex items-center justify-center w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ${
-                loading ? 'cursor-not-allowed' : ''
+                isLoading ? 'cursor-not-allowed' : ''
             }`}
-            disabled={loading}
+            disabled={isLoading}
         >
-            {loading && (
+            {isLoading && (
                 <span className="loader animate-spin mr-2 border-2 border-t-2 border-t-transparent border-white rounded-full w-4 h-4"></span>
             )}
-            {loading ? 'Registering...' : 'Register'}
+            {isLoading ? 'Registering...' : 'Register'}
         </button>
     </form>
   )
