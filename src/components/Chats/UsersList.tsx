@@ -3,26 +3,25 @@ import React, { useEffect, useState } from 'react'
 import UserCard from './UserCard';
 import { supabase } from '@/lib/supabase';
 import { CustomUser } from '@/interfaces/CustomUser';
+import useAuth from '@/hooks/useAuth';
+import { fetchUsers } from '@/apis/RGet';
 
 export default function UsersList({ handleChatSelection }: { handleChatSelection: (user: CustomUser) => void }) {
+
+    const { user } = useAuth();
 
     const [listOfUsers, setListOfUsers] = useState<CustomUser[]>([]);
 
     useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    // fetch list of users
-    const fetchUsers = async () => {
-        const { data, error } = await supabase
-            .from('user')
-            .select('id, username');
-
-        if (error) {
-            console.error('Error fetching users:', error.message);
-        } else {
-            setListOfUsers(data);
+        if (user) {
+            fetchUsersList();
         }
+    }, [user]);
+
+    // fetch list of users except the current user
+    const fetchUsersList = async () => {
+        const data = await fetchUsers(user);
+        setListOfUsers(data);
     };
 
     const showMessages = (id: string) => {

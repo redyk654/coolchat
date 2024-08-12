@@ -119,7 +119,7 @@ export default function SignInForm() {
                 {isLoading && (
                     <span className="loader animate-spin mr-2 border-2 border-t-2 border-t-transparent border-white rounded-full w-4 h-4"></span>
                 )}
-                {isLoading ? 'Registering...' : 'Register'}
+                {isLoading ? 'Signining in...' : 'Sign in'}
             </button>
         </form>
     )
