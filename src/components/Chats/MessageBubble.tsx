@@ -1,3 +1,4 @@
+import { convertDate } from '@/utils/functions'
 import React from 'react'
 
 export default function MessageBubble({ currentUserId, sender_id, contain, created_at }: { currentUserId: string | undefined, sender_id: string, contain: string, created_at: string }) {
@@ -18,7 +19,7 @@ export default function MessageBubble({ currentUserId, sender_id, contain, creat
                 sender_id === currentUserId ? 'text-blue-200' : 'text-gray-500'
                 }`}
             >
-                {created_at}
+                {convertDate(created_at.substring(0, 10)) + ' ' + created_at.substring(11, 16)}
             </span>
         </div>
     </div>
