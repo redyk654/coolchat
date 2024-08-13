@@ -16,7 +16,7 @@ export default function UsersList({ handleChatSelection }: { handleChatSelection
         if (user) {
             fetchUsersList();
         }
-    }, [user]);
+    });
 
     // fetch list of users except the current user
     const fetchUsersList = async () => {
