@@ -1,6 +1,6 @@
 import { fetchMessages } from '@/apis/RGet';
 import { supabase } from '@/lib/supabase';
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function useRealTimeMessages(user: any, userSelected: any) {
     const [messages, setMessages] = useState<any[]>([]);
@@ -8,10 +8,10 @@ export default function useRealTimeMessages(user: any, userSelected: any) {
     useEffect(() => {
     if (user && userSelected) {
         const fetchInitialMessages = async () => {
-        const { data, error } = await fetchMessages(user, userSelected);
-        if (!error) {
-            setMessages(data);
-        }
+            const { data, error } = await fetchMessages(user, userSelected);
+            if (!error) {
+                setMessages(data);
+            }
         };
 
         fetchInitialMessages();

@@ -1,7 +1,13 @@
-import React from 'react'
+"use client";
+import React, { ChangeEvent } from 'react'
 
-export default function SearchInput() {
-  return (
+export default function SearchInput({ search, setSearch }: { search: string, setSearch: (search: string) => void }) {
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    }
+
+    return (
     <div className="relative flex items-center w-full max-w-xs">
         <svg
             className="absolute left-3 w-5 h-5 text-gray-500"
@@ -18,6 +24,8 @@ export default function SearchInput() {
             />
         </svg>
         <input
+            value={search}
+            onChange={handleChange}
             type="text"
             placeholder="Search"
             className="pl-10 pr-4 py-2 w-full border rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"

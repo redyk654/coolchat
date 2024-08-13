@@ -1,11 +1,10 @@
 import { supabase } from "@/lib/supabase";
 
-export const fetchUsers = async (user: any): Promise<any[]> => {
+export const fetchUsers = async (): Promise<any[]> => {
     try {
         const { data, error } = await supabase
             .from('user')
             .select('id, username')
-            .neq('id', user?.id);
 
         if (error) {
             console.error('Error fetching users:', error.message);

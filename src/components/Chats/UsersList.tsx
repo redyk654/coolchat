@@ -1,28 +1,34 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import UserCard from './UserCard';
-import { supabase } from '@/lib/supabase';
 import { CustomUser } from '@/interfaces/CustomUser';
 import useAuth from '@/hooks/useAuth';
-import { fetchUsers } from '@/apis/RGet';
+import useFetchUsers from '@/hooks/useFetchUsers';
 
-export default function UsersList({ handleChatSelection }: { handleChatSelection: (user: CustomUser) => void }) {
+export default function UsersList({ handleChatSelection, search }: { handleChatSelection: (user: CustomUser) => void, search: string }) {
 
     const { user } = useAuth();
+    const { listOfUsers, isFetching } = useFetchUsers();
 
-    const [listOfUsers, setListOfUsers] = useState<CustomUser[]>([]);
-
-    useEffect(() => {
+    const removeCurrentUser = (usersList: CustomUser[]): CustomUser[] => {
         if (user) {
-            fetchUsersList();
+            return usersList.filter(u => u.id !== user.id);
         }
-    });
+        return [];
+    }
 
-    // fetch list of users except the current user
-    const fetchUsersList = async () => {
-        const data = await fetchUsers(user);
-        setListOfUsers(data);
-    };
+    const filterUsers = (users: CustomUser[], search: string): CustomUser[] => {
+        users = removeCurrentUser(users);
+        if (!search) {
+            return users;
+        }
+        if (isFetching) {
+            return [];
+        }
+        return users.filter(user => user.username.toLowerCase().includes(search.toLowerCase()));
+    }
+
+    const filteredUsers = filterUsers(listOfUsers, search);
 
     const showMessages = (id: string) => {
         if (id === "0") {
@@ -42,7 +48,8 @@ export default function UsersList({ handleChatSelection }: { handleChatSelection
             id={"0"}
             showMessages={showMessages}
         />
-        {listOfUsers.map((user: CustomUser) => (
+        {isFetching && <p>Loading users...</p>}
+        {filteredUsers.map((user: CustomUser) => (
             <UserCard
                 key={user.id}
                 username={user.username}

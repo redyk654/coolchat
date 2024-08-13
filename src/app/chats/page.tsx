@@ -13,6 +13,7 @@ import React, { useState } from 'react'
 export default function Chats() {
 
     const [userSelected, setUserSelected] = useState<CustomUser | null>(null);
+    const [search, setSearch] = useState<string>('');
 
     const handleChatSelection = (user: CustomUser) => {
         setUserSelected(user);
@@ -34,11 +35,17 @@ export default function Chats() {
                 <H2Title styles='text-slate-900'>
                     Chats
                 </H2Title>
-                <SearchInput />
+                <SearchInput
+                    search={search}
+                    setSearch={setSearch}
+                />
                 {/* list of users */}
                 <div className='container mx-auto'>
                     <div className='grid grid-cols-1 gap-2'>
-                        <UsersList handleChatSelection={handleChatSelection} />
+                        <UsersList
+                            handleChatSelection={handleChatSelection}
+                            search={search}
+                        />
                     </div>
                 </div>
             </div>
