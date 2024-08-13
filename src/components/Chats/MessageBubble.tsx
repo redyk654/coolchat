@@ -1,7 +1,8 @@
 import { convertDate } from '@/utils/functions'
 import React from 'react'
 
-export default function MessageBubble({ currentUserId, sender_id, contain, created_at }: { currentUserId: string | undefined, sender_id: string, contain: string, created_at: string }) {
+export default function MessageBubble({ currentUserId, sender_id, sender_username, contain, created_at, userSelectedId }: 
+    { currentUserId: string | undefined, sender_id: string, sender_username: string, contain: string, created_at: string, userSelectedId: string | undefined }) {
   return (
     <div
       className={`grid ${
@@ -13,7 +14,17 @@ export default function MessageBubble({ currentUserId, sender_id, contain, creat
                 sender_id === currentUserId ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-900'
             }`}
         >
+            {/* username */}
+            <span
+                className={`${userSelectedId === "0" ? 'block' : 'hidden'} mb-0 text-xs capitalize ${
+                sender_id === currentUserId ? 'text-blue-200' : 'text-gray-500'
+                }`}
+            >
+                {sender_id === currentUserId ? 'You' : sender_username}
+            </span>
+            {/* message */}
             <p>{contain}</p>
+            {/* date */}
             <span
                 className={`block mt-2 text-xs ${
                 sender_id === currentUserId ? 'text-blue-200' : 'text-gray-500'

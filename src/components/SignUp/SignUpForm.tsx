@@ -3,6 +3,7 @@ import React, { FormEvent, useState } from 'react'
 import { signUpWithEmail } from '@/apis/Authentication';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation'
+import GoToSignIn from '../shared/GoToSignIn';
 
 export default function SignUpForm() {
 
@@ -143,6 +144,8 @@ export default function SignUpForm() {
                 </label>
             </div>
 
+            <p className='text-center mb-1'>Already have account ? <GoToSignIn title='Sign up' /></p>
+            
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
 
             <button

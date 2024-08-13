@@ -66,13 +66,15 @@ export default function Discussion({ userSelected }: { userSelected: CustomUser 
         <div className='row-span-9 w-full overflow-auto h-[69vh]'>
             <div className='p-4 space-y-4'>
                 {/* list of messages */}
-                {listOfMessages.map((message, index) => (
+                {listOfMessages.map((message) => (
                     <MessageBubble
-                        key={index}
+                        key={message.id}
                         currentUserId={user?.id}
                         sender_id={message.sender_id}
+                        sender_username={message.sender.username}
                         contain={message.contain}
                         created_at={message.created_at}
+                        userSelectedId={userSelected?.id}
                     />
                 ))}
                 <div ref={messagesEndRef} />

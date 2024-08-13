@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <div className="w-full h-12 bg-slate-900 flex items-center justify-center">
+        <div className="w-full h-12 bg-slate-800 flex items-center justify-center">
           <h1 className="text-3xl font-semibold text-white">CoolChat</h1>
         </div>
         {children}

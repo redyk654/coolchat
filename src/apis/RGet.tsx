@@ -24,7 +24,14 @@ export const fetchMessages = async (user: any, userSelected: any): Promise<any> 
         // fetch group messages
         const { data, error } = await supabase
         .from('message')
-        .select('*')
+        .select(`
+            id,
+            created_at,
+            sender_id,
+            receiver_id,
+            contain,
+            sender:sender_id (username)
+        `)
         .eq('receiver_id', '0')
         .order('id', { ascending: true });
 
@@ -38,7 +45,14 @@ export const fetchMessages = async (user: any, userSelected: any): Promise<any> 
     // fetch messages between two users
     const { data, error } = await supabase
     .from('message')
-    .select('*')
+    .select(`
+        id,
+        created_at,
+        sender_id,
+        receiver_id,
+        contain,
+        sender:sender_id (username)
+    `)
     .or(`and(sender_id.eq.${user?.id},receiver_id.eq.${userSelected?.id}),and(sender_id.eq.${userSelected?.id},receiver_id.eq.${user?.id})`)
     .order('id', { ascending: true });
 

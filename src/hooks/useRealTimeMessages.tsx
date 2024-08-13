@@ -16,7 +16,7 @@ export default function useRealTimeMessages(user: any, userSelected: any) {
 
         fetchInitialMessages();
 
-        // listen to new messages
+        // Listen to new messages
         const subscription = supabase
         .channel('public:message')
         .on(
@@ -26,13 +26,25 @@ export default function useRealTimeMessages(user: any, userSelected: any) {
                 schema: 'public',
                 table: 'message',
             },
-            (payload) => {
+            async (payload) => {
                 const newMessage = payload.new;
-                // check if the message is for the current user or the selected user
+                // Check if the message is for the current user or the selected user
                 if (
                 ((newMessage as { sender_id: string, receiver_id: string }).sender_id === user.id && (newMessage as { sender_id: string, receiver_id: string }).receiver_id === userSelected.id) ||
                 ((newMessage as { sender_id: string, receiver_id: string }).sender_id === userSelected.id && (newMessage as { sender_id: string, receiver_id: string }).receiver_id === user.id)
                 ) {
+                    // Fetch sender username if not available
+                    if (!(newMessage as { sender?: { username?: string } }).sender || !(newMessage as { sender?: { username?: string } }).sender?.username) {
+                        const { data: senderData } = await supabase
+                            .from('user')
+                            .select('username')
+                            .eq('id', (newMessage as { sender_id: string }).sender_id)
+                            .single();
+                    
+                        if (senderData !== null) {
+                            (newMessage as { sender?: { username?: string } }).sender = senderData; // Add sender username to the message
+                        }
+                    }
                     setMessages((prevMessages) => [...prevMessages, newMessage]);
                 }
             }

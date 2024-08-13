@@ -3,6 +3,7 @@ import { signInUser } from '@/apis/Authentication';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, useState } from 'react'
+import GoToSignUp from '../shared/GoToSignUp';
 
 export default function SignInForm() {
 
@@ -106,6 +107,8 @@ export default function SignInForm() {
                     Password
                 </label>
             </div>
+
+            <p className='text-center mb-1'>Don't have account ? <GoToSignUp title='Sign up' /></p>
 
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
 
