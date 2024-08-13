@@ -108,7 +108,7 @@ export default function SignInForm() {
                 </label>
             </div>
 
-            <p className='text-center mb-1'>Don't have account ? <GoToSignUp title='Sign up' /></p>
+            <p className='text-center mb-1'>{"Don't have account ? "} <GoToSignUp title='Sign up' /></p>
 
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
 

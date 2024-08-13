@@ -144,7 +144,7 @@ export default function SignUpForm() {
                 </label>
             </div>
 
-            <p className='text-center mb-1'>Already have account ? <GoToSignIn title='Sign up' /></p>
+            <p className='text-center mb-1'>{"Already have account ? "} <GoToSignIn title='Sign up' /></p>
             
             {error && <p className="mt-2 text-sm text-red-400">{error}</p>}
 
